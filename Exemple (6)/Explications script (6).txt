@@ -1,0 +1,33 @@
+Ce code JavaScript définit et exporte un module représentant une commande pour un bot Discord.
+
+module.exports = {
+    name: 'ping',
+    description: 'Ping!',
+    execute(message, args) {
+        message.channel.send('Pong!');
+    },
+};
+
+
+- `module.exports = { ... };`
+  - Cette ligne exporte un objet depuis ce module. Cet objet représente une commande que le bot peut exécuter.
+
+- `name: 'ping',`
+  - Ceci est une propriété de l'objet exporté. `name` définit le nom de la commande, ici `'ping'`. C'est ce que les utilisateurs devront taper pour exécuter cette commande.
+
+- `description: 'Ping!',`
+  - Cette propriété fournit une description de la commande. Elle peut être utilisée pour afficher des informations sur la commande, par exemple dans un message d'aide.
+
+- `execute(message, args) { ... }`
+  - `execute` est une méthode qui sera appelée lorsque la commande est exécutée. 
+  - `message` est l'objet message qui a déclenché la commande. Cet objet contient des informations sur le message, l'auteur, le canal, etc.
+  - `args` est un tableau d'arguments supplémentaires passés avec la commande.
+
+- `message.channel.send('Pong!');`
+  - À l'intérieur de la méthode `execute`, cette ligne envoie le message `'Pong!'` dans le même canal où la commande a été exécutée.
+  - `message.channel` représente le canal où le message original a été posté, et `send` est une méthode pour envoyer un message dans ce canal.
+
+Résumé général :
+- Ce module définit une commande nommée `'ping'` pour un bot Discord.
+- Lorsqu'un utilisateur tape la commande `!ping`, la méthode `execute` envoie `'Pong!'` dans le canal d'où provient la commande.
+- La structure de ce module facilite l'ajout et la gestion des commandes du bot, en gardant chaque commande dans son propre fichier avec un format cohérent.
