@@ -1,0 +1,43 @@
+Ce code JavaScript ajoute un système de niveaux basé sur l'activité des utilisateurs dans un bot Discord en utilisant une map pour suivre les points d'expérience (XP) des utilisateurs.
+
+const levels = new Map();
+- `levels` est une Map qui associe les identifiants d'utilisateurs (`userId`) à leurs points d'expérience (XP). Une Map est utilisée ici pour stocker les données des utilisateurs de manière efficace.
+
+client.on('messageCreate', message => {
+    if (message.author.bot) return;
+
+- `client.on('messageCreate', message => { ... });`
+  - `client` est une instance de la classe `Client` de `discord.js`, représentant le bot Discord.
+  - La méthode `on` enregistre un gestionnaire d'événement (`event handler`) pour l'événement spécifié. Ici, l'événement est `'messageCreate'`.
+  - `'messageCreate'` est un événement émis à chaque fois qu'un nouveau message est envoyé dans un canal où le bot a accès.
+  - La fonction fléchée est le gestionnaire d'événement qui sera exécuté chaque fois qu'un message est créé.
+- `if (message.author.bot) return;`
+  - Cette condition vérifie si l'auteur du message est un bot. Si c'est le cas, la fonction retourne immédiatement, empêchant les bots de gagner des points d'expérience.
+
+    const userId = message.author.id;
+    const xp = levels.get(userId) || 0;
+    levels.set(userId, xp + 1);
+
+- `const userId = message.author.id;`
+  - Cette ligne obtient l'identifiant unique (`id`) de l'auteur du message.
+- `const xp = levels.get(userId) || 0;`
+  - Cette ligne récupère les points d'expérience actuels de l'utilisateur depuis la Map `levels`. Si l'utilisateur n'a pas encore de points d'expérience, la valeur par défaut est `0`.
+- `levels.set(userId, xp + 1);`
+  - Cette ligne met à jour la Map `levels` en ajoutant un point d'expérience pour l'utilisateur.
+
+    if (xp % 10 === 0) {
+        message.channel.send(`${message.author.username} est maintenant niveau ${xp / 10}!`);
+    }
+});
+
+- `if (xp % 10 === 0) { ... }`
+  - Cette condition vérifie si les points d'expérience actuels de l'utilisateur sont un multiple de 10. Si c'est le cas, cela signifie que l'utilisateur a atteint un nouveau niveau.
+- `message.channel.send(`${message.author.username} est maintenant niveau ${xp / 10}!`);`
+  - Si l'utilisateur atteint un nouveau niveau, cette ligne envoie un message dans le canal indiquant le nouveau niveau de l'utilisateur.
+  - `${message.author.username}` est une expression de template string qui injecte le nom d'utilisateur de l'auteur dans le message.
+  - `${xp / 10}` calcule le niveau actuel de l'utilisateur en divisant les points d'expérience par 10.
+
+Résumé général :
+- Le code définit un système de niveaux pour un bot Discord en utilisant une Map pour suivre les points d'expérience des utilisateurs.
+- Lorsqu'un utilisateur envoie un message, il gagne un point d'expérience.
+- Si l'utilisateur atteint un multiple de 10 points d'expérience, un message est envoyé dans le canal pour annoncer le nouveau niveau de l'utilisateur.
