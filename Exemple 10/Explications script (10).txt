@@ -1,0 +1,64 @@
+Ce code JavaScript définit et exporte un module représentant une commande pour expulser un utilisateur d'un serveur Discord.
+module.exports = {
+    name: 'kick',
+    description: 'Expulser un utilisateur',
+    execute(message, args) {
+        const member = message.mentions.members.first();
+        if (member) {
+            member.kick().then(() => {
+                message.channel.send(`${member.user.tag} a été expulsé.`);
+            }).catch(err => {
+                message.channel.send('Impossible d\'expulser cet utilisateur.');
+            });
+        } else {
+            message.channel.send('Utilisateur non trouvé.');
+        }
+    },
+};
+
+
+- `module.exports = { ... };`
+  - Cette ligne exporte un objet depuis ce module. Cet objet représente une commande que le bot peut exécuter.
+
+- `name: 'kick',`
+  - Ceci est une propriété de l'objet exporté. `name` définit le nom de la commande, ici `'kick'`. C'est ce que les utilisateurs devront taper pour exécuter cette commande.
+
+- `description: 'Expulser un utilisateur',`
+  - Cette propriété fournit une description de la commande. Elle peut être utilisée pour afficher des informations sur la commande, par exemple dans un message d'aide.
+
+- `execute(message, args) { ... }`
+  - `execute` est une méthode qui sera appelée lorsque la commande est exécutée.
+  - `message` est l'objet message qui a déclenché la commande. Cet objet contient des informations sur le message, l'auteur, le canal, etc.
+  - `args` est un tableau d'arguments supplémentaires passés avec la commande.
+
+- `const member = message.mentions.members.first();`
+  - Cette ligne obtient le premier membre mentionné dans le message.
+  - `message.mentions.members` est une collection de tous les membres mentionnés dans le message.
+  - `.first()` renvoie le premier membre de cette collection.
+
+- `if (member) { ... }`
+  - Cette condition vérifie si un membre a été mentionné.
+
+- `member.kick().then(() => { ... }).catch(err => { ... });`
+  - `member.kick()` tente d'expulser le membre du serveur.
+  - `.then(() => { ... })` est une promesse qui s'exécute si l'expulsion réussit.
+  - `.catch(err => { ... })` est une promesse qui s'exécute si l'expulsion échoue.
+
+- `message.channel.send(`${member.user.tag} a été expulsé.`);`
+  - Si l'expulsion réussit, cette ligne envoie un message dans le canal indiquant que l'utilisateur a été expulsé.
+  - `${member.user.tag}` est une expression de template string qui injecte le tag de l'utilisateur dans le message.
+
+- `message.channel.send('Impossible d\'expulser cet utilisateur.');`
+  - Si l'expulsion échoue, cette ligne envoie un message dans le canal indiquant que l'utilisateur n'a pas pu être expulsé.
+
+- `} else { ... }`
+  - Si aucun membre n'a été mentionné, le code exécute cette section.
+
+- `message.channel.send('Utilisateur non trouvé.');`
+  - Cette ligne envoie un message dans le canal indiquant qu'aucun utilisateur n'a été trouvé.
+
+Résumé général :
+- Ce module définit une commande nommée `'kick'` pour un bot Discord.
+- Lorsqu'un utilisateur tape la commande `!kick @utilisateur`, la méthode `execute` tente d'expulser l'utilisateur mentionné du serveur.
+- Si l'expulsion réussit, un message de confirmation est envoyé dans le canal. Si elle échoue, un message d'erreur est envoyé.
+- Si aucun utilisateur n'est mentionné, un message d'erreur indiquant que l'utilisateur n'a pas été trouvé est envoyé.
