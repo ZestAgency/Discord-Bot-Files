@@ -1,0 +1,34 @@
+Ce code JavaScript met en place un bot Discord en utilisant la bibliothèque `discord.js`. Voici une explication détaillée de chaque partie du code :
+
+require('dotenv').config();
+
+- Cette ligne charge les variables d'environnement à partir d'un fichier `.env` dans `process.env`. Ceci est utilisé pour gérer les configurations sensibles, telles que les tokens d'API, sans les inclure directement dans le code.
+
+const { Client, GatewayIntentBits } = require('discord.js');
+
+- Cette ligne importe deux choses depuis la bibliothèque `discord.js` :
+  - `Client` : La classe principale pour interagir avec l'API de Discord.
+  - `GatewayIntentBits` : Un objet contenant des options pour les intentions du bot, qui déterminent quels événements le bot peut recevoir.
+
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+
+- Cette ligne crée une nouvelle instance de `Client` (le bot) avec les intentions spécifiées :
+  - `GatewayIntentBits.Guilds` : Permet au bot de recevoir des événements relatifs aux guildes (serveurs).
+  - `GatewayIntentBits.GuildMessages` : Permet au bot de recevoir des événements relatifs aux messages dans les guildes.
+  - `GatewayIntentBits.MessageContent` : Permet au bot d'accéder au contenu des messages.
+
+client.once('ready', () => {
+    console.log('Bot is online!');
+});
+
+- Cette partie enregistre un événement "ready" qui s'exécute une seule fois lorsque le bot est prêt. Lorsque cet événement se déclenche, il affiche "Bot is online!" dans la console. Cela signifie que le bot a correctement démarré et est connecté à Discord.
+
+client.login(process.env.DISCORD_TOKEN);
+
+- Cette ligne connecte le bot à Discord en utilisant le token d'authentification stocké dans les variables d'environnement sous `process.env.DISCORD_TOKEN`. Le token est essentiel pour l'authentification et la connexion du bot à un compte Discord.
+
+Résumé général :
+- Le code initialise un bot Discord en utilisant la bibliothèque `discord.js`.
+- Il charge les configurations sensibles depuis un fichier `.env`.
+- Il configure le bot pour écouter certains types d'événements (guildes, messages de guildes, contenu des messages).
+- Il se connecte à Discord en utilisant un token sécurisé, et une fois prêt, il affiche un message indiquant que le bot est en ligne.
