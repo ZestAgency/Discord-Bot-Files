@@ -1,0 +1,14 @@
+client.once('ready', () => {
+    console.log('Bot is online and ready!');
+});
+
+- `client.once('ready', () => { ... });`
+  - `client` est une instance de la classe `Client` de `discord.js`, représentant le bot Discord.
+  - La méthode `once` enregistre un gestionnaire d'événement (`event handler`) qui se déclenche une seule fois pour l'événement spécifié. Ici, l'événement est `'ready'`.
+  - `'ready'` est un événement émis par l'instance du client lorsqu'elle a terminé de se connecter à Discord et que le bot est prêt à être utilisé.
+
+- `() => { ... }`
+  - Ceci est une fonction fléchée (`arrow function`) utilisée comme gestionnaire d'événement. Elle sera exécutée lorsque l'événement `'ready'` se produit.
+
+- `console.log('Bot is online and ready!');`
+  - À l'intérieur de la fonction fléchée, cette ligne affiche le message `'Bot is online and ready!'` dans la console. Cela permet au développeur de savoir que le bot est correctement connecté et prêt à fonctionner.
