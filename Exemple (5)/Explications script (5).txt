@@ -1,0 +1,25 @@
+Ce code JavaScript utilise le module `fs` (file system) pour lire les fichiers de commandes d'un répertoire et les enregistrer dans une collection de commandes du bot Discord.
+
+const fs = require('fs');
+
+- Cette ligne importe le module `fs` (file system) de Node.js, qui permet d'interagir avec le système de fichiers du serveur, comme lire ou écrire des fichiers.
+
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+- `fs.readdirSync('./commands')` lit le contenu du répertoire `./commands` de manière synchrone, renvoyant un tableau avec les noms de fichiers contenus dans ce répertoire.
+- `.filter(file => file.endsWith('.js'))` filtre ce tableau pour ne garder que les fichiers dont le nom se termine par `.js`, c'est-à-dire les fichiers JavaScript.
+
+
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
+}
+
+- `for (const file of commandFiles) { ... }` itère sur chaque fichier JavaScript dans le tableau `commandFiles`.
+- `const command = require(`./commands/${file}`);` importe dynamiquement chaque fichier de commande en utilisant `require`. Chaque fichier est supposé exporter un objet de commande.
+- `client.commands.set(command.name, command);` ajoute chaque commande à une collection de commandes du client Discord. `command.name` est le nom de la commande, et `command` est l'objet de commande lui-même.
+
+Résumé général :
+- Le code importe le module `fs` pour accéder au système de fichiers.
+- Il lit tous les fichiers JavaScript du répertoire `./commands`.
+- Pour chaque fichier JavaScript, il importe le fichier et ajoute l'objet de commande résultant à une collection de commandes du bot Discord.
