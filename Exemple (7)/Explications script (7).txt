@@ -1,0 +1,40 @@
+Ce code JavaScript définit et exporte un module représentant une commande d'aide pour un bot Discord.
+
+module.exports = {
+    name: 'help',
+    description: 'Liste des commandes disponibles',
+    execute(message, args) {
+        const commands = message.client.commands.map(cmd => cmd.name).join(', ');
+        message.channel.send(`Commandes disponibles : ${commands}`);
+    },
+};
+
+
+- `module.exports = { ... };`
+  - Cette ligne exporte un objet depuis ce module. Cet objet représente une commande que le bot peut exécuter.
+
+- `name: 'help',`
+  - Ceci est une propriété de l'objet exporté. `name` définit le nom de la commande, ici `'help'`. C'est ce que les utilisateurs devront taper pour exécuter cette commande.
+
+- `description: 'Liste des commandes disponibles',`
+  - Cette propriété fournit une description de la commande. Elle peut être utilisée pour afficher des informations sur la commande, par exemple dans un message d'aide.
+
+- `execute(message, args) { ... }`
+  - `execute` est une méthode qui sera appelée lorsque la commande est exécutée. 
+  - `message` est l'objet message qui a déclenché la commande. Cet objet contient des informations sur le message, l'auteur, le canal, etc.
+  - `args` est un tableau d'arguments supplémentaires passés avec la commande.
+
+- `const commands = message.client.commands.map(cmd => cmd.name).join(', ');`
+  - Cette ligne crée une liste des noms de toutes les commandes disponibles pour le bot.
+  - `message.client.commands` est une collection de toutes les commandes chargées dans le bot.
+  - `.map(cmd => cmd.name)` crée un nouveau tableau contenant uniquement les noms des commandes.
+  - `.join(', ')` combine tous les noms de commande en une seule chaîne, séparés par des virgules.
+
+- `message.channel.send(`Commandes disponibles : ${commands}`);`
+  - Cette ligne envoie un message dans le canal d'où provient la commande.
+  - Le message contient la liste des commandes disponibles.
+
+Résumé général :
+- Ce module définit une commande nommée `'help'` pour un bot Discord.
+- Lorsqu'un utilisateur tape la commande `!help`, la méthode `execute` envoie un message listant toutes les commandes disponibles du bot dans le canal où la commande a été exécutée.
+- La commande parcourt toutes les commandes chargées dans le bot, extrait leurs noms et les affiche dans un message.
