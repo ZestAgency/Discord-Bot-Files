@@ -1,0 +1,63 @@
+Ce code JavaScript définit et exporte un module représentant une commande pour ajouter un rôle à un utilisateur dans un bot Discord.
+
+module.exports = {
+    name: 'addrole',
+    description: 'Ajouter un rôle à un utilisateur',
+    execute(message, args) {
+        const role = message.guild.roles.cache.find(r => r.name === args[0]);
+        const member = message.mentions.members.first();
+
+        if (role && member) {
+            member.roles.add(role);
+            message.channel.send(`Le rôle ${role.name} a été ajouté à ${member.user.username}`);
+        } else {
+            message.channel.send('Rôle ou utilisateur introuvable.');
+        }
+    },
+};
+
+- `module.exports = { ... };`
+  - Cette ligne exporte un objet depuis ce module. Cet objet représente une commande que le bot peut exécuter.
+
+- `name: 'addrole',`
+  - Ceci est une propriété de l'objet exporté. `name` définit le nom de la commande, ici `'addrole'`. C'est ce que les utilisateurs devront taper pour exécuter cette commande.
+
+- `description: 'Ajouter un rôle à un utilisateur',`
+  - Cette propriété fournit une description de la commande. Elle peut être utilisée pour afficher des informations sur la commande, par exemple dans un message d'aide.
+
+- `execute(message, args) { ... }`
+  - `execute` est une méthode qui sera appelée lorsque la commande est exécutée. 
+  - `message` est l'objet message qui a déclenché la commande. Cet objet contient des informations sur le message, l'auteur, le canal, etc.
+  - `args` est un tableau d'arguments supplémentaires passés avec la commande.
+
+- `const role = message.guild.roles.cache.find(r => r.name === args[0]);`
+  - Cette ligne recherche un rôle dans le serveur (guild) dont le nom correspond au premier argument fourni (`args[0]`).
+  - `message.guild.roles.cache` est une collection de tous les rôles disponibles dans le serveur.
+  - `.find(r => r.name === args[0])` cherche dans cette collection un rôle avec un nom qui correspond à `args[0]`.
+
+- `const member = message.mentions.members.first();`
+  - Cette ligne obtient le premier membre mentionné dans le message.
+  - `message.mentions.members` est une collection de tous les membres mentionnés dans le message.
+  - `.first()` renvoie le premier membre de cette collection.
+
+- `if (role && member) { ... }`
+  - Cette condition vérifie si à la fois le rôle et le membre ont été trouvés.
+
+- `member.roles.add(role);`
+  - Si la condition est vraie, cette ligne ajoute le rôle au membre.
+  - `member.roles.add(role)` utilise la méthode `add` pour ajouter le rôle spécifié à la collection de rôles du membre.
+
+- `message.channel.send(`Le rôle ${role.name} a été ajouté à ${member.user.username}`);`
+  - Si le rôle et le membre sont trouvés et le rôle ajouté, cette ligne envoie un message dans le canal indiquant que le rôle a été ajouté au membre.
+
+- `} else { ... }`
+  - Si la condition `if` est fausse (le rôle ou le membre est introuvable), le code exécute cette section.
+
+- `message.channel.send('Rôle ou utilisateur introuvable.');`
+  - Cette ligne envoie un message dans le canal indiquant que le rôle ou l'utilisateur est introuvable.
+
+Résumé général :
+- Ce module définit une commande nommée `'addrole'` pour un bot Discord.
+- Lorsqu'un utilisateur tape la commande `!addrole <role> @utilisateur`, la méthode `execute` tente d'ajouter le rôle spécifié à l'utilisateur mentionné.
+- Si le rôle et l'utilisateur sont trouvés, le rôle est ajouté et un message de confirmation est envoyé.
+- Si l'un ou l'autre est introuvable, un message d'erreur est envoyé.
